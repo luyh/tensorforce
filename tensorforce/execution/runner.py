@@ -75,12 +75,17 @@ class Runner(BaseRunner):
         self.start_time = time.time()
 
         self.agent.reset()
+        self.global_episode = 0
+        self.global_timestep = 0
+        # if num_episodes is not None:
+        #     num_episodes += self.agent.episode
+        #
+        # if num_timesteps is not None:
+        #     num_timesteps += self.agent.timestep
 
-        if num_episodes is not None:
-            num_episodes += self.agent.episode
-
-        if num_timesteps is not None:
-            num_timesteps += self.agent.timestep
+        # # Update global counters.
+        # self.global_episode = self.agent.episode  # global value (across all agents)
+        # self.global_timestep = self.agent.timestep  # global value (across all agents)
 
         # add progress bar
         with tqdm(total=num_episodes) as pbar:
@@ -89,10 +94,6 @@ class Runner(BaseRunner):
                 episode_start_time = time.time()
                 state = self.environment.reset()
                 self.agent.reset()
-
-                # Update global counters.
-                self.global_episode = self.agent.episode  # global value (across all agents)
-                self.global_timestep = self.agent.timestep  # global value (across all agents)
 
                 episode_reward = 0
                 self.current_timestep = 0
